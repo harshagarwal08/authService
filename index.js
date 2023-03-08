@@ -5,7 +5,7 @@ const express = require('express');
 
 const app = express();
 
-const {router} = require('../src/routes/router');
+const {router} = require('./src/routes/router');
 
 app.use(cors());
 app.use(express.json());
