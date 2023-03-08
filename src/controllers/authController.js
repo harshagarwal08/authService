@@ -1,4 +1,4 @@
-const UserService = require('../services/authService');
+const AuthService = require('../services/authService');
 const HTTPError = require('../utils/errors/httpError');
 
 const catchBlockHandler = (error, res) => {
@@ -12,7 +12,7 @@ const catchBlockHandler = (error, res) => {
 const createUser = async (req, res) => {
   try {
     const {username, password} = req.body;
-    const user = await UserService.createUser(username, password);
+    const user = await AuthService.createUser(username, password);
     return res.status(201).json({ status: 201, data: user, message: 'Succesfully Created User' });
   } catch (error) {
     catchBlockHandler(error, res);
@@ -21,7 +21,7 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const {username, password} = req.body;
-    const user = await UserService.loginUser(username, password);
+    const user = await AuthService.loginUser(username, password);
     return res.status(200).json({ status: 200, data: user, message: 'Succesfully Logged in' });
   } catch (error) {
     catchBlockHandler(error, res);
@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
 const checkTokenValidity = async (req, res) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = await UserService.checkTokenValidity(token);
+    const decodedToken = await AuthService.checkTokenValidity(token);
     return res.status(200).json({ status: 200, message: 'Token Verified', data: decodedToken});
   } catch (error) {
     catchBlockHandler(error, res);
