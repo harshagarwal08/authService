@@ -11,8 +11,8 @@ const catchBlockHandler = (error, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const {username, password} = req.body;
-    const user = await AuthService.createUser(username, password);
+    const {email, password} = req.body;
+    const user = await AuthService.createUser(email, password);
     return res.status(201).json({ status: 201, data: user, message: 'Succesfully Created User' });
   } catch (error) {
     catchBlockHandler(error, res);
@@ -20,8 +20,8 @@ const createUser = async (req, res) => {
 };
 const loginUser = async (req, res) => {
   try {
-    const {username, password} = req.body;
-    const user = await AuthService.loginUser(username, password);
+    const {email, password} = req.body;
+    const user = await AuthService.loginUser(email, password);
     return res.status(200).json({ status: 200, data: user, message: 'Succesfully Logged in' });
   } catch (error) {
     catchBlockHandler(error, res);

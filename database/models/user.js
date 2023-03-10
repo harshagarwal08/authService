@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
-    username: DataTypes.STRING,
+    email: DataTypes.STRING,
     password: DataTypes.TEXT
   }, {
     sequelize,

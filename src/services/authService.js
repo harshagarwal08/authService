@@ -4,23 +4,23 @@ const passwordUtil = require('../utils/passwordUtil');
 const tokenUtil = require('../utils/tokenUtil');
 const { UniqueConstraintError } = require('sequelize');
 
-const createUser = async (username, password) => {
+const createUser = async (email, password) => {
   try {
     const encryptedPassword = await passwordUtil.encryptPassword(password);
-    const user = await Users.create({ username: username, password: encryptedPassword });
+    const user = await Users.create({ email: email, password: encryptedPassword });
     return user.dataValues;
   } catch (error) {
     if (error instanceof UniqueConstraintError) {
       console.log('Error');
-      throw new HTTPError('Username already exists', 400);
+      throw new HTTPError('Email already exists', 400);
     }
     throw new HTTPError(500, 'Internal server error', 500);
   }
 
 };
 
-const loginUser = async (username, password) => {
-  const user = await Users.findOne({ where: { username: username } });
+const loginUser = async (email, password) => {
+  const user = await Users.findOne({ where: { email: email } });
   if (!user)
     throw new HTTPError('User not found', 400);
 

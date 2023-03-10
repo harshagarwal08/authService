@@ -7,10 +7,10 @@ const tokenUtil = require('../../src/utils/tokenUtil');
 
 describe('Auth Service', () => {
   describe('createUser', () => {
-    it('should create a user when username and password is valid', async () => {
+    it('should create a user when email and password is valid', async () => {
       const mockUser = {
         id: 1,
-        username: 'test1',
+        email: 'test1',
         password: 'encryptedPassword',
         createdAt: '2021-03-01T00:00:00.000Z',
         updatedAt: '2021-03-01T00:00:00.000Z',
@@ -21,7 +21,7 @@ describe('Auth Service', () => {
       });
       jest.spyOn(db, 'findOne').mockResolvedValue({
         id: 1,
-        username: 'test1',
+        email: 'test1',
         createdAt: '2021-03-01T00:00:00.000Z',
         updatedAt: '2021-03-01T00:00:00.000Z',
       });
@@ -29,9 +29,9 @@ describe('Auth Service', () => {
       expect(user).toEqual(undefined);
     });
 
-    it('should throw an error if username is already taken', (async () => {
+    it('should throw an error if email is already taken', (async () => {
       jest.spyOn(db, 'create').mockRejectedValueOnce(new UniqueConstraintError());
-      await expect(AuthService.createUser('test', 'password')).rejects.toEqual(expect.objectContaining({ message: 'Username already exists' }));
+      await expect(AuthService.createUser('test', 'password')).rejects.toEqual(expect.objectContaining({ message: 'Email already exists' }));
     }
     ));
 
@@ -39,13 +39,13 @@ describe('Auth Service', () => {
   describe('loginUser', () => {
     const mockUser = {
       id: 1,
-      username: 'test2',
+      email: 'test2',
       password: 'password',
       createdAt: '2021-03-01T00:00:00.000Z',
       updatedAt: '2021-03-01T00:00:00.000Z',
     };
 
-    it('should return user if username and password is valid', async () => {
+    it('should return user if email and password is valid', async () => {
       jest.spyOn(db, 'findOne').mockResolvedValue(mockUser);
       jest.spyOn(passwordUtil, 'checkEncryptedPassword').mockResolvedValue(true);
       jest.spyOn(tokenUtil, 'generateToken').mockResolvedValue('token');

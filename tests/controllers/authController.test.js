@@ -7,7 +7,7 @@ describe('Auth Controller', () => {
     it('should return 201 status code when user is successfully created', async () => {
       const req = {
         body: {
-          username: 'test',
+          email: 'test',
           password: 'test'
         }
       };
@@ -18,7 +18,7 @@ describe('Auth Controller', () => {
       const next = jest.fn();
       const mockUser = {
         id: 1,
-        username: 'test',
+        email: 'test',
         password: 'test',
         createdAt: '2021-01-01',
         updatedAt: '2021-01-01'
@@ -29,10 +29,10 @@ describe('Auth Controller', () => {
       expect(res.json).toHaveBeenCalledWith({'data': mockUser, 'message': 'Succesfully Created User', 'status': 201});
     });
 
-    it('should return 400 status code if user with same username already exists', async () => {
+    it('should return 400 status code if user with same email already exists', async () => {
       const req = {
         body: {
-          username: 'test',
+          email: 'test',
           password: 'test'
         }
       };
@@ -41,17 +41,17 @@ describe('Auth Controller', () => {
         json: jest.fn().mockReturnThis()
       };
       const next = jest.fn();
-      const mockError = new HTTPError('User with this username already exists', 400);
+      const mockError = new HTTPError('User with this email already exists', 400);
       AuthService.createUser = jest.fn().mockRejectedValue(mockError);
       await AuthController.createUser(req, res, next);
       expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({'message': 'User with this username already exists'});
+      expect(res.json).toHaveBeenCalledWith({'message': 'User with this email already exists'});
     });
 
     it('should return 500 status code if creating user in database fails', async () => {
       const req = {
         body: {
-          username: 'test',
+          email: 'test',
           password: 'test'
         }
       };
@@ -71,7 +71,7 @@ describe('Auth Controller', () => {
     it('should return 200 status code when user is successfully logged in', async () => {
       const req = {
         body: {
-          username: 'test',
+          email: 'test',
           password: 'test'
         }
       };
@@ -82,7 +82,7 @@ describe('Auth Controller', () => {
       const next = jest.fn();
       const mockUser = {
         id: 1,
-        username: 'test',
+        email: 'test',
         password: 'test',
         createdAt: '2021-01-01',
         updatedAt: '2021-01-01'
@@ -92,11 +92,11 @@ describe('Auth Controller', () => {
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({'data': mockUser, 'message': 'Succesfully Logged in', 'status': 200});
     });
-    it('should return 400 status code if user with given username does not exist', async () => {
+    it('should return 400 status code if user with given email does not exist', async () => {
 
       const req = {
         body: {
-          username: 'test',
+          email: 'test',
           password: 'test'
         }
       };
@@ -105,16 +105,16 @@ describe('Auth Controller', () => {
         json: jest.fn().mockReturnThis()
       };
       const next = jest.fn();
-      const mockError = new HTTPError('User with this username does not exist', 400);
+      const mockError = new HTTPError('User with this email does not exist', 400);
       AuthService.loginUser = jest.fn().mockRejectedValue(mockError);
       await AuthController.loginUser(req, res, next);
       expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({'message': 'User with this username does not exist'});
+      expect(res.json).toHaveBeenCalledWith({'message': 'User with this email does not exist'});
     });
     it('should return 400 status code if password is incorrect', async () => {
       const req = {
         body: {
-          username: 'test',
+          email: 'test',
           password: 'test'
         }
       };
@@ -132,7 +132,7 @@ describe('Auth Controller', () => {
     it('should return 500 status code if logging in user in database fails', async () => {
       const req = {
         body: {
-          username: 'test',
+          email: 'test',
           password: 'test'
         }
       };
